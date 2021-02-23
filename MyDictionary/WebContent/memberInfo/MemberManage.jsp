@@ -4,9 +4,9 @@
 <%@page import="user.UserDAO"%>
 <%
 	int start = 0;// 리스트 출력할 시작 위치
-	int cnt = 2;// 리스트 출력 개수
+	int cnt = 10;// 리스트 출력 개수
 	int pageNum = 1;// 현재 페이지
-	int pagingCnt = 2; // 페이징 출력 개수
+	int pagingCnt = 5; // 페이징 출력 개수
 
 	if(request.getParameter("pageNum") != null){ 
 		// 널값이 아니라면 페이지 넘버를 가져온다. 리퀘스트 파라메타는 문자열만 출력하기때문에 문자열로 받아와서 정수형으로 바꿔줌
