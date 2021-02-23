@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+
+	<!-- 시작 페이지 설정 -->
+	<welcome-file-list>
+		<welcome-file>/dictionary/Dictionary.jsp</welcome-file>
+	</welcome-file-list>
+<!--	
+	<security-role>
+		<role-name>admin</role-name>
+	</security-role>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>MyDictionary</web-resource-name> 프로젝트 이름 
+			<url-pattern>/addDictionary.jsp</url-pattern>  인증을 이페이지에 적용 
+			<url-pattern>/deleteDictionary.jsp</url-pattern>  인증을 이페이지에 적용 
+			<http-method>GET</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>관리자</description> < 그냥 설명 
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<login-config>
+ 		<auth-method>FORM</auth-method>  form으로 인증 
+		<form-login-config>
+			<form-login-page>/login.jsp</form-login-page>  웹마켓에'/'가 붙음 login.jsp 페이지가 뜸 인증 창으로 사용 
+			<form-error-page>/login_failed.jsp</form-error-page>  웹마켓에 '/'가 붙음로그인 실패시 login_failed.jsp 페이지뜸 
+		</form-login-config>
+ 	</login-config>
+-->
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/exceptionNoPage.jsp</location>
+	</error-page>
+	
+	<!-- 로그필터 처리
+	<filter>
+		<filter-name>LogFilter</filter-name>
+		<filter-class>filter.LogFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LogFilter</filter-name>
+		<url-pattern>/*</url-pattern>  웹 컨텐트 어느 주소든 접속하면 이 필터를 걸친다.
+	</filter-mapping>
+ -->
+ 
+ 
+ 	<servlet>
+		<servlet-name>BoardController</servlet-name>
+		<servlet-class>mvc.controller.BoardController</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>BoardController</servlet-name>
+		<url-pattern>*.do</url-pattern> <!-- *.do: *은 뭘 쓰던지 .do만있으면 상관이없다. (주소를 줌) 할당한 주소 입력시 mvc.controller.BoardController 여기로 이동(처리함)  -->
+	</servlet-mapping>
+ 
+</web-app>

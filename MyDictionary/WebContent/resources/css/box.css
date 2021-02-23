@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+
+.box-radius {
+   padding: 4px;
+   border: 1px solid #FFA2A2;
+   background:#FFC6C6;
+   border-radius: 7px;
+   -moz-border-radius: 7px;
+   -webkit-border-radius: 7px;
+   -o-border-radius: 7px;
+}

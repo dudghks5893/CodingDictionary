@@ -1,0 +1,76 @@
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<%@ page import="mvc.model.BoardDTO"%>
+
+<%
+	BoardDTO notice = (BoardDTO) request.getAttribute("board");
+	int num = ((Integer) request.getAttribute("num")).intValue();
+	int nowpage = ((Integer) request.getAttribute("page")).intValue();
+%>
+<html>
+<head>
+<link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
+<title>게시글</title>
+</head>
+<body>
+	<jsp:include page="../include/boardMenu.jsp" />
+	<div class="jumbotron">
+		<div class="container">
+			<h1 class="display-3">게시글</h1>
+		</div>
+	</div>
+<!-- 관리자 혹은 본인이 쓴 글을 볼때 -->
+<c:set var="userId" value="<%=notice.getId()%>" />
+<c:choose>
+	<c:when test="${sessionId==userId||sessionId=='admin'}">
+	<div class="container">
+		<form name="newUpdate"
+			action="BoardUpdateAction.do?num=<%=notice.getNum()%>&pageNum=<%=nowpage%>"
+			class="form-horizontal" method="post">
+			<div class="card">
+				<div class="card-header">
+					<input name="name" type="hidden" class="form-control" value="<%=notice.getName()%>">
+					<%=notice.getName()%>
+				</div>
+				<div class="card-body">
+					<input name="subject" class="form-control mb-3"	value="<%=notice.getSubject().replaceAll("<", "&#60;")%>" >
+					<textarea name="content" class="form-control" cols="50" rows="15"><%=notice.getContent().replaceAll("<", "&#60;")%></textarea>
+					<div class="form-group row mt-3">
+						<div class="col-sm-offset-2 col-sm-10 ">
+							<a	href="./BoardDeleteAction.do?num=<%=notice.getNum()%>&pageNum=<%=nowpage%>"	class="btn btn-danger"> 삭제</a> 
+							<input type="submit" class="btn btn-success" value="수정 ">
+							<a href="./BoardListAction.do?pageNum=<%=nowpage%>"	class="btn btn-primary"> 목록</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	</c:when>
+
+	<c:otherwise>
+		<!-- 다른 사람의 게시글을 볼때 -->
+		<div class="container">
+			<div class="card">
+				<div class="card-header">
+					<%=notice.getName()%>
+				</div>
+				<div class="card-body">
+					<label class="mb-3">제목: <%=notice.getSubject().replaceAll("<", "&#60;")%></label>
+					<pre ><%=notice.getContent().replaceAll("<", "&#60;")%></pre>
+					<div class="form-group row mt-3">
+						<div class="col-sm-offset-2 col-sm-10 ">
+							<a href="./BoardListAction.do?pageNum=<%=nowpage%>"	class="btn btn-primary"> 목록</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</c:otherwise>
+</c:choose>
+	<jsp:include page="../include/footer.jsp" />
+</body>
+</html>
+
+
