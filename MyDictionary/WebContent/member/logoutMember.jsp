@@ -2,5 +2,5 @@
 
 <%
 	session.invalidate();
-	response.sendRedirect("../dictionary/Dictionary.jsp");
+	response.sendRedirect("../dictionary/selectDictionary");
 %>

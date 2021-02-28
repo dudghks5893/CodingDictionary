@@ -36,7 +36,7 @@ if (pstmt != null) pstmt.close();
 if (conn != null) conn.close();
 
 //페이지 이동
-response.sendRedirect("../dictionary/Dictionary.jsp");
+response.sendRedirect("../dictionary/selectDictionary");
 
 
 %>

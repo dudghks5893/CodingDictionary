@@ -35,7 +35,7 @@
 	</div>
 	<div class="container">
 		<p>
-			<a href="<c:url value="../dictionary/Dictionary.jsp"/>" class="btn btn-secondary"> Home &raquo;</a>
+			<a href="<c:url value="../dictionary/selectDictionary"/>" class="btn btn-secondary"> Home &raquo;</a>
 		</p>
 	</div>	
 </body>

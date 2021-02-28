@@ -15,13 +15,6 @@
 	user.setUserPassword(rquest.getParameter("userPassword"));
  -->
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>JSP 게시판 웹사이트</title>
-</head>
-<body>
 	<%
 // 		세션에 userID를 얻어와서 현재 로그인 상태인지 확인한다.
 		String userID = null;
@@ -32,7 +25,7 @@
 		if(userID != null){ // 이미 로그인이 되어 있으면
 			out.println("<script>");
 			out.println("alert('이미 로그인이 되어있습니다.')");
-			out.println("location.href = '../dictionary/Dictionary.jsp'"); // 메인페이지로 이동
+			out.println("location.href = '../dictionary/selectDictionary'"); // 메인페이지로 이동
 			out.println("</script>");
 		}
 		
@@ -43,7 +36,7 @@
 		if(result == 1){ //정상 (로그인)
 			session.setAttribute("sessionId", user.getUserID()); // 파라메터로 유저 아이디를 받아와 세션으로 보냄
 			out.println("<script>");
-			out.println("location.href = '../dictionary/Dictionary.jsp'");
+			out.println("location.href = '../dictionary/selectDictionary'");
 			out.println("</script>");
 		} else if (result == 0){ //비번이 틀리다
 			out.println("<script>");
@@ -62,6 +55,3 @@
 			out.println("</script>");
 		}
 	%>
-
-</body>
-</html>

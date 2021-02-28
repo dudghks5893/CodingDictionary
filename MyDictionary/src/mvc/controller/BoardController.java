@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import mvc.model.BoardDAO;
 import mvc.model.BoardDTO;
 import mvc.model.adminBoardDAO;
+import my.util.paging.Paging;
 
 // 게시판 서블릿 
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	static final int LISTCOUNT = 10;  // 화면에 표시되는 게시글 숫자
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -82,11 +82,14 @@ public class BoardController extends HttpServlet {
 	public void requestBoardList(HttpServletRequest request){
 			
 		BoardDAO dao = BoardDAO.getInstance(); // 유일한 객체를 가져옴
+		Paging paging = new Paging(); // 페이징 객체 생성
 		List<BoardDTO> boardlist = new ArrayList<BoardDTO>();
 		
+		final int LISTCOUNT = 10;  // 화면에 표시되는 리스트 개수
+		final int PAGECOUNT = 5;   // 화면에 표시되는 페이지 개수
 	  	int pageNum=1; //최초 페이지넘버는 1이다.
 	  	int start = 0;// 리스트 출력할 시작 위치
-		int cnt=LISTCOUNT; //화면 표시 게시글수 10
+		int	total_record = 0; // 게시글 총 개수
 		
 		if(request.getParameter("pageNum")!=null) // 페이지 넘버가 있으면 그 값으로
 			pageNum=Integer.parseInt(request.getParameter("pageNum"));
@@ -94,27 +97,30 @@ public class BoardController extends HttpServlet {
 		String items = request.getParameter("items");
 		String text = request.getParameter("text");
 		
-		// 게시글이 몇개 인지? (제목 또는 본문 또는 글쓴이), 검색어
-		int total_record=dao.getListCount(items, text);
-		// 화면에 보여줄 게시글을 가져온다. (페이지넘버, 표시되는게시글수(5), 아이템, 검색어)
-		boardlist = dao.getBoardList(pageNum,items, text,start,cnt); 
+		// 화면에 보여줄 게시글을 가져온다. (페이지넘버,아이템,검색어,리밋(start,cnt))
+		boardlist = dao.getBoardList(pageNum,items, text,start,LISTCOUNT);
 		
-		int total_page;
+		// 게시글 총 개수 (제목 또는 본문 또는 글쓴이), 검색어
+		total_record = dao.getListCount(items, text);
 		
-		if (total_record % cnt == 0){ // 총 게시글숫자가 10의 배수일때     
-	     	total_page =total_record/cnt;
-	     	Math.floor(total_page);  
-		}
-		else{ // 아닐때
-		   total_page =total_record/cnt;
-		   Math.floor(total_page); // 소수점 버림 
-		   total_page =  total_page + 1; // 나머지가 있는경우에 페이지+1을 해준다. 
-		}		
-		// 리퀘스트에 페이지넘버, 전체 페이지 수, 전체 게시글 수, 화면에 출력할 게시글리스트
+        //페이징 블록 처리
+        paging.getBlockPaging(pageNum, total_record,LISTCOUNT,PAGECOUNT);
+        
+        int blockStartNum = paging.getBlockStartNum();
+        int blockLastNum = paging.getBlockLastNum();
+        int total_page = paging.getTotal_page();
+        int next = paging.getNext();
+        int back = paging.getBack();
+        
+        request.setAttribute("pageCount", PAGECOUNT);
+        request.setAttribute("blockStartNum", blockStartNum);
+        request.setAttribute("blockLastNum", blockLastNum);
+        request.setAttribute("total_page", total_page);
+        request.setAttribute("next", next);
+        request.setAttribute("back", back);
 		request.setAttribute("items", items);
 		request.setAttribute("text", text);
    		request.setAttribute("pageNum", pageNum);		  
-   		request.setAttribute("total_page", total_page);   
 		request.setAttribute("total_record",total_record); 
 		request.setAttribute("boardlist", boardlist);								
 	}

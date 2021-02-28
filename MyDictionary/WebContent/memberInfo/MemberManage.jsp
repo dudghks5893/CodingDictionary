@@ -1,54 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@page import="user.User"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="user.UserDAO"%>
+<%@page import="user.User"%>
+<jsp:useBean id="dao" class="user.UserDAO"/>
+<jsp:useBean id="paging" class="my.util.paging.Paging"/>
 <%
-	int start = 0;// 리스트 출력할 시작 위치
-	int cnt = 10;// 리스트 출력 개수
-	int pageNum = 1;// 현재 페이지
-	int pagingCnt = 5; // 페이징 출력 개수
-
+	final int LISTCOUNT = 12;  // 화면에 표시되는 리스트 개수
+	final int PAGECOUNT = 5; // 화면에 표시되는 페이지 개수
+	int pageNum = 1; // 최초 시작 페이지
+	int start = 0;   // 리스트 출력할 시작 위치
+	int	total_record = 0; // 게시글 총 개수
+	
+	// request 영역
 	if(request.getParameter("pageNum") != null){ 
 		// 널값이 아니라면 페이지 넘버를 가져온다. 리퀘스트 파라메타는 문자열만 출력하기때문에 문자열로 받아와서 정수형으로 바꿔줌
 		pageNum = Integer.parseInt((String) request.getParameter("pageNum"));
 	}
-	UserDAO dao = new UserDAO();
 	String search = request.getParameter("search"); // Search값을 받아옴
-	ArrayList<User> list = dao.getAllMember(pageNum,search,start,cnt);
+	
+	// 회원 리스트
+	ArrayList<User> list = dao.getAllMember(pageNum,search,start,LISTCOUNT);
+	
+	//페이징 블록 처리
+	total_record = dao.getAllCount(search);
+    paging.getBlockPaging(pageNum, total_record,LISTCOUNT,PAGECOUNT);
 	
 	//페이징 처리 변수들
-	int next = 1; //다음 페이지
-	int back = 1; //이전 페이지
-	int block = 0;//현재 블럭
-	int startBlock = 1;//시작 블럭
-	int pagingSize = dao.getAllPaging(search, cnt); // 페이징 총 개수
-	int lastBlock = 0; // 5씩 증감했을때 마지막 숫자 (나머지 페이지 표시하기 위함)
-	
-	for(int r=1; r<pagingSize+1; r+=pagingCnt){ // 페이징 블록처리 했을때 마지막 숫자 (나머지 페이지의 startBlock 시작 블록)
-		lastBlock = r;
-	}
-	// 페이징 다음 페이지&이전 페이지&블럭
-		for(int j=1; j<pagingSize+1; j+=pagingCnt){
-			if(pageNum>=next){ // 다음 페이지 6,11,16
-				next=j;
-			}
-			if(pageNum>=next && pageNum>pagingCnt){ // 이전 페이지 1,6,11
-				back= next-pagingCnt;
-			}
-			if(pageNum>block){ // 페이징 5개씩 출력 1~5,6~10,11~15
-				block = j-1;
-			}
-			if(pageNum >= lastBlock){ // 페이징 나머지 처리 
-				block = pagingSize;
-			}
-			if(pageNum>=startBlock && pageNum>1){ // 페이징블럭 시작 숫자 1,6,11
-				startBlock = block-(pagingCnt-1);
-			}
-			if(pageNum>=lastBlock){ // 마지막 페이징블럭의 시작 숫자
-				startBlock = next;
-			}
-		
-		}
+    int blockStartNum = paging.getBlockStartNum();
+    int blockLastNum = paging.getBlockLastNum();
+    int total_page = paging.getTotal_page();
+    int next = paging.getNext();
+    int back = paging.getBack();
 %>
 <html>
 
@@ -106,16 +87,17 @@
 			</div>
 			<div class="mt-5" align="center">
 			<%
-			if(search!=null){
+			if(search!=null && pageNum>PAGECOUNT){
 		%>
 			<a href="MemberManage.jsp?search=<%=search%>&pageNum=<%=back%>" class="btn btn-outline-info mr-2"><b>&laquo;</b></a>
 		<%
-			} else{
+			} 
+			if(search==null && pageNum>PAGECOUNT){
 		%>
 			<a href="MemberManage.jsp?pageNum=<%=back%>" class="btn btn-outline-info mr-2"><b>&laquo;</b></a>
 		<%
 			}
-			for(int p=startBlock; p<=block; p++){
+			for(int p=blockStartNum; p<=blockLastNum; p++){
 				if(search==null){
 					if(pageNum==p){
 		%>
@@ -141,11 +123,12 @@
 			}
 		%>
 		<%
-			if(search!=null){
+			if(search!=null && total_page > blockLastNum){
 		%>
 			<a href="MemberManage.jsp?search=<%=search%>&pageNum=<%=next%>" class="btn btn-outline-info ml-2"><b>&raquo;</b></a>
 		<%
-			} else{
+			} 
+			if(search==null && total_page > blockLastNum){
 		%>
 			<a href="MemberManage.jsp?pageNum=<%=next%>" class="btn btn-outline-info ml-2"><b>&raquo;</b></a>
 		<%

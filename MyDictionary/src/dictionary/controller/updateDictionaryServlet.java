@@ -30,7 +30,7 @@ public class updateDictionaryServlet extends HttpServlet{
 		bean.setNum(Integer.parseInt(request.getParameter("num")));
 		
 		mgr.updateDictionary(bean);
-		response.sendRedirect("updateDictionary.jsp");
+		response.sendRedirect("selectDictionary_update");
 		
 	}
 }

@@ -23,7 +23,7 @@ public class deleteDictionaryServlet extends HttpServlet{
 		bean.setNum(Integer.parseInt(request.getParameter("num")));
 		
 		mgr.deleteDictionary(bean);
-		response.sendRedirect("deleteDictionary.jsp");
+		response.sendRedirect("selectDictionary_delete");
 		
 	}
 }

@@ -29,7 +29,7 @@ public class InsertDictionaryServlet extends HttpServlet{
 		bean.setEx(request.getParameter("ex"));
 		
 		mgr.insertDictionary(bean);
-		response.sendRedirect("Dictionary.jsp");
+		response.sendRedirect("selectDictionary");
 		
 	}
 }

@@ -115,7 +115,8 @@ public class BoardDAO {
 	//board 테이블에 새로운 글 삽입히가
 	public void insertBoard(BoardDTO board)  {
 		try {
-			conn = DBConnection.getConnection();		
+			conn = DBConnection.getConnection();
+			for(int i=0; i<10; i++) {
 			String sql = "insert into board values(?, ?, ?, ?, ?, ?, ?, ?)";
 		
 			pstmt = conn.prepareStatement(sql);
@@ -129,6 +130,7 @@ public class BoardDAO {
 			pstmt.setString(8, board.getIp());
 
 			pstmt.executeUpdate();
+			}
 		} catch (Exception ex) {
 			System.out.println("insertBoard() 에러 : " + ex);
 		} finally {

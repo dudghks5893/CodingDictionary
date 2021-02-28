@@ -72,26 +72,49 @@
 
 				</table>
 			</div>
+			${pageCount}<br>
+			${blockStartNum}<br>
+			${blockLastNum}<br>
+			${total_page}<br>
+			넥스트${next}<br>
+			${back}<br>
+			
 			<div class="mb-3" align="center">
 				<c:set var="pageNum" value="${pageNum}" />
-				<c:forEach var="i" begin="1" end="${total_page}">
+				<c:if test="${!empty text && pageNum >pageCount}">
+					<a href="<c:url value="./BoardListAction.do?pageNum=${back}&items=${items}&text=${text}"/>" style="font-size: 12px; text-decoration: none; color: black;">&#60;이전ㅣ</a>
+				</c:if>
+				<c:if test="${empty text && pageNum >pageCount}">
+					<a href="<c:url value="./BoardListAction.do?pageNum=${back}" />" style="font-size: 12px; text-decoration: none; color: black;">&#60;이전ㅣ</a>
+				</c:if>
+				<c:forEach var="i" begin="${blockStartNum}" end="${blockLastNum}">
 					<c:if test="${text ne null}">
-						<a href="<c:url value="./BoardListAction.do?pageNum=${i}&items=${items}&text=${text}" /> ">
-					</c:if>
-					<c:if test="${text eq null}">
-						<a href="<c:url value="./BoardListAction.do?pageNum=${i}" /> ">
-					</c:if>
 						<c:choose>
 							<c:when test="${pageNum==i}">
-								<font color='4C5317'><b> [${i}]</b></font>
+								<a href="<c:url value="./BoardListAction.do?pageNum=${i}&items=${items}&text=${text}" /> " style="text-decoration: none; color: 4C5317;"><b> [${i}]</b></a>
 							</c:when>
 							<c:otherwise>
-								<font color='4C5317'> [${i}]</font>
-
+								<a href="<c:url value="./BoardListAction.do?pageNum=${i}&items=${items}&text=${text}" /> " style="text-decoration: none; color: 4C5317;"> [${i}]</a>
 							</c:otherwise>
 						</c:choose>
-					</a>
-				</c:forEach><!-- a태에 주소값을 준 다음 폰트태그들을 감싸주고 해당 페이지 넘버이면 b태그적용 아니면 노멀 -->
+					</c:if>
+					<c:if test="${text eq null}">
+						<c:choose>
+							<c:when test="${pageNum==i}">
+								<a href="<c:url value="./BoardListAction.do?pageNum=${i}" /> " style="text-decoration: none; color: 4C5317;"><b> [${i}]</b></a>
+							</c:when>
+							<c:otherwise>
+								<a href="<c:url value="./BoardListAction.do?pageNum=${i}" /> " style="text-decoration: none; color: 4C5317;"> [${i}]</a>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+				</c:forEach>
+				<c:if test="${!empty text && total_page > blockLastNum}">
+					<a href="<c:url value="./BoardListAction.do?pageNum=${next}&items=${items}&text=${text}"/>" style="font-size: 12px; text-decoration: none; color: black;">ㅣ다음&#62;</a>
+				</c:if>
+				<c:if test="${empty text && total_page > blockLastNum}">
+					<a href="<c:url value="./BoardListAction.do?pageNum=${next}"/>" style="font-size: 12px; text-decoration: none; color: black;">ㅣ다음&#62;</a>
+				</c:if>
 			</div>
 			<div align="left">
 				<table>

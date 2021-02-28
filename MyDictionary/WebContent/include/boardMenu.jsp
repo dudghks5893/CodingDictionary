@@ -31,25 +31,25 @@
     			  <i class="fas fa-book"></i>
     		  </a>
     			<div class="dropdown-menu">
-              		<a href="<c:url value="./dictionary/Dictionary.jsp"/>" class="dropdown-item">
+              		<a href="<c:url value="./dictionary/selectDictionary"/>" class="dropdown-item">
                 		<i class="fas fa-book"></i> 전체보기
               		</a>
-              		<a href="<c:url value="./dictionary/Language.jsp?language=CSS"/>" class="dropdown-item">
+              		<a href="<c:url value="./dictionary/selectLanguage?language=CSS"/>" class="dropdown-item">
                 		<i class="fas fa-book"></i> CSS
               		</a>
-              		<a href="<c:url value="./dictionary/Language.jsp?language=HTML"/>" class="dropdown-item">
+              		<a href="<c:url value="./dictionary/selectLanguage?language=HTML"/>" class="dropdown-item">
                 		<i class="fas fa-book"></i> HTML
               		</a>
-              		<a href="<c:url value="./dictionary/Language.jsp?language=JAVA"/>" class="dropdown-item">
+              		<a href="<c:url value="./dictionary/selectLanguage?language=JAVA"/>" class="dropdown-item">
                 		<i class="fas fa-book"></i> JAVA
               		</a>
-              		<a href="<c:url value="./dictionary/Language.jsp?language=JavaScript"/>" class="dropdown-item">
+              		<a href="<c:url value="./dictionary/selectLanguage?language=JavaScript"/>" class="dropdown-item">
                 		<i class="fas fa-book"></i> JavaScript
               		</a>
-              		<a href="<c:url value="./dictionary/Language.jsp?language=JSTL"/>" class="dropdown-item">
+              		<a href="<c:url value="./dictionary/selectLanguage?language=JSTL"/>" class="dropdown-item">
                 		<i class="fas fa-book"></i> JSTL
               		</a>
-              		<a href="<c:url value="./dictionary/Language.jsp?language=XML"/>" class="dropdown-item">
+              		<a href="<c:url value="./dictionary/selectLanguage?language=XML"/>" class="dropdown-item">
                 		<i class="fas fa-book"></i> XML
               		</a>
     		   </div>          	
@@ -65,7 +65,7 @@
           <c:choose>
 			<c:when test="${empty sessionId }">
           <li class="nav-item">
-            <a class="nav-link" href="#" data-remote="./member/boardLogin.jsp" data-toggle="modal" data-target="#theModal">
+            <a class="nav-link" href="./dictionary/selectDictionary" data-remote="./member/boardLogin.jsp" data-toggle="modal" data-target="#theModal">
               <i class="fas fa-user"></i> 로그인
             </a>
           </li>
@@ -94,10 +94,10 @@
               <a href="<c:url value="./dictionary/addDictionary.jsp"/>" class="dropdown-item">
                 <i class="fas fa-plus"></i> 코딩추가
               </a>
-              <a href="<c:url value="./dictionary/updateDictionary.jsp"/>" class="dropdown-item">
+              <a href="<c:url value="./dictionary/selectDictionary_update"/>" class="dropdown-item">
                 <i class="fas fa-cog"></i> 코딩수정
               </a>
-              <a href="<c:url value="./dictionary/deleteDictionary.jsp"/>" class="dropdown-item">
+              <a href="<c:url value="./dictionary/selectDictionary_delete"/>" class="dropdown-item">
                 <i class="fas fa-trash"></i> 코딩삭제
               </a>
               <a href="<c:url value="./memberInfo/MemberManage.jsp"/>" class="dropdown-item">
