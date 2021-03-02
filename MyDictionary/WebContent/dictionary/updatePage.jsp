@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@page import="java.util.ArrayList"%>
 <%@page import="dictionary.model.DictionaryBean"%>
+<%@page import="language.model.LanguageBean"%>
 <jsp:useBean id="mgr" class="dictionary.model.DictionaryMgr"/>
+<jsp:useBean id="mgr2" class="language.model.LanguageMgr"/>
+
 <%
 	String num = request.getParameter("num");
 	DictionaryBean bean = mgr.getEx(num);
 	String language = bean.getLanguage();// select문 초기값 설정 
+	ArrayList<LanguageBean> list = mgr2.getLanguageList();
 %>
 		<html>
 
@@ -32,12 +37,12 @@
 					<label class="col-sm-2">언어</label>
 					<div class="col-sm-5">
 						<select name="language" id="language" class="form-control">
-							<option <% if(language.equals("JAVA")){ %> selected <% } %> >JAVA</option>
-							<option <% if(language.equals("CSS")){ %> selected <% } %> >CSS</option>
-							<option <% if(language.equals("JavaScript")){ %> selected <% } %> >JavaScript</option>
-							<option <% if(language.equals("HTML")){ %> selected <% } %> >HTML</option>
-							<option <% if(language.equals("XML")){ %> selected <% } %> >XML</option>
-							<option <% if(language.equals("JSTL")){ %> selected <% } %> >JSTL</option>
+							<%
+								for(int i=0; i<list.size(); i++){
+							%>
+								<option <% if(language.equals(list.get(i).getLanguage())){ %> selected <% } %> ><%=list.get(i).getLanguage()%></option>
+							
+							<%}%>
 						</select>						
 					</div>
 				</div>

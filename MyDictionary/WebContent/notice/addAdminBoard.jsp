@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../dbconn.jsp" %>
-
+<jsp:include page="../include/menu.jsp" />
 <html>
 <head>
-<link rel="stylesheet" href="../resources/css/bootstrap.min.css" />
 <title>Board</title>
 </head>
 <script type="text/javascript">
@@ -24,7 +23,7 @@
 	}
 </script>
 <body>
-	<jsp:include page="../include/menu.jsp" />
+
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">공지 등록</h1>

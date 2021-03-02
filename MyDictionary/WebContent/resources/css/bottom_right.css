@@ -1,0 +1,7 @@
+@charset "UTF-8";
+.bottomright {
+     position: fixed;
+     bottom: 30px;
+     right: 30px;
+     
+}

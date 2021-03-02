@@ -1,20 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="mvc.model.BoardDTO"%>
+<jsp:include page="../include/menu.jsp" />
 
 <html>
 <head>
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
 <title>Board</title>
 </head>
 <body>
-	<jsp:include page="../include/boardMenu.jsp" />
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">공지사항</h1>
 		</div>
 	</div>
-
 <%
 	BoardDTO notice = (BoardDTO) request.getAttribute("board");
 	int num = ((Integer) request.getAttribute("num")).intValue();
@@ -28,7 +26,7 @@
 			class="form-horizontal" method="post">
 			<div class="card">
 				<div class="card-header">
-					<input name="name" type="hidden" class="form-control"	value="<%=notice.getName()%>">
+					<input name="name" type="hidden" class="form-control" value="<%=notice.getName()%>">
 					<%=notice.getName()%>
 				</div>
 			

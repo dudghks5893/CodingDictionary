@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+
+.notice-radius {
+   padding: 4px;
+   border: 1px solid #FFA2A2;
+   background:#FFC6C6;
+   border-radius: 7px;
+   -moz-border-radius: 7px;
+   -webkit-border-radius: 7px;
+   -o-border-radius: 7px;
+}
+
+#board-search{
+	font-size: 15px;
+	height: 28px;
+	width:50px ; 
+	padding: 1px; 
+	margin-bottom: 5px; 
+	margin-left: -4px
+}

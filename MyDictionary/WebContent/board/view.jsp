@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <%@ page import="mvc.model.BoardDTO"%>
+<jsp:include page="../include/menu.jsp"/>
 
 <%
 	BoardDTO notice = (BoardDTO) request.getAttribute("board");
@@ -10,11 +10,9 @@
 %>
 <html>
 <head>
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
 <title>게시글</title>
 </head>
 <body>
-	<jsp:include page="../include/boardMenu.jsp" />
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">게시글</h1>

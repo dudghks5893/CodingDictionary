@@ -1,0 +1,27 @@
+@charset "UTF-8";
+    h1 {
+        text-align: center;
+        margin-top: 70px;
+        font-size: 90px;
+    }
+    h1 span:nth-child(1) {
+        color:#D2916C;
+    }
+    h1 span:nth-child(2) {
+        color:#C07F5A;
+    }
+    h1 span:nth-child(3) {
+        color:#AE6D48;
+    }
+    h1 span:nth-child(4) {
+        color:#9C5B36;
+    }
+    h1 span:nth-child(5) {
+        color:#8A4924;
+    }
+    h1 span:nth-child(6) {
+        color:#783712;
+    }
+    .search-bar {
+      width: 600px;
+    }

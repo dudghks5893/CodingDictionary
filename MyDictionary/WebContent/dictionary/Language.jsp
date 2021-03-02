@@ -3,29 +3,29 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="dictionary.model.DictionaryBean"%>
+<jsp:include page="../include/menu.jsp" />
 <jsp:useBean id="mgr" class="dictionary.model.DictionaryMgr"/>
 <jsp:useBean id="paging" class="my.util.paging.Paging"/>
 		<html>
-
 		<head>
+			<link rel="stylesheet" type="text/css" href="../resources/css/dictionary.css"/>
 			<title>${language}</title>
 		</head>
 
 		<body>
-			<jsp:include page="../include/menu.jsp" />
-			<div class="container text-center">
-				<h1 class="display-3" style="margin-top:30px;">코딩사전</h1>
-			</div>
-			<div class="container " style="margin-top: 50px">
-				<form class="form-inline">
-					<input type="hidden" name="language" value="${language}">	
-					<input class="form-control border border-success col-sm-10 col-md-11 col-lg-11" type="search"
-						placeholder="Search" aria-label="Search" name="search">
-					<button class="btn btn-success col-sm-2 col-md-1 col-lg-1" type="submit">검색</button>
-				</form>
-			</div>
+			<h1>
+    			<span>C</span><span>o</span><span>d</span><span>i</span><span>n</span><span>g</span>
+  			</h1>
+ 			 <form>
+ 			 	<input type="hidden" name="language" value="${language}">
+   			 	<div class="mx-auto mt-5 search-bar input-group mb-3">
+      				<input name="search" type="text" class="form-control rounded-pill" placeholder="Coding 검색 " aria-label="Recipient's username" aria-describedby="button-addon2">
+      				<div class="input-group-append">
+     	 			</div>
+    			</div>
+ 			 </form>
 			<div class="container" style="margin-top: 60px;">
-				<h1>${language} ${total_record}개</h1>
+				<h2>${language} ${total_record}개</h2>
 			</div>
 			<div style="padding-top: 50px;">
 				<table class="table table-hover" style="border: 1px solid #ddd">
@@ -40,7 +40,7 @@
 						<td>${item.language}</td>
 						<td>${fn:replace(item.code, '<', '&#60;')}</td>
 						<td>${fn:replace(item.explanation, '<', '&#60;').replace(' ','&nbsp;')}</td>
-						<td><a href="Ex.jsp?num=${item.num}" class="btn btn-success" style="height: 25px; padding: 1px; color: white;">사용예제</a></td>
+						<td><a href="Ex.jsp?num=${item.num}" class="btn" style="height: 25px; padding: 1px; color: white; background-color: #C07F5A; border: #8A4924;">사용예제</a></td>
 					</tr>
 				</c:forEach>
 				</table>
@@ -82,6 +82,10 @@
 				<a href="selectLanguage?language=${language}&pageNum=${next}" class="btn btn-outline-info ml-2"><b>&raquo;</b></a>
 			</c:if>
 		</div>
+<!-- 우측하단 고정 -->
+<div class="bottomright">
+   <input class="btn btn-outline-info" id="night_day" type="button" value="다크모드" onclick="darkMode()">
+</div>
 	<jsp:include page="../include/footer.jsp" />
 </body>
 </html>

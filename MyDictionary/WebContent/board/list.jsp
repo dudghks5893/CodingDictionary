@@ -1,13 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
-
+<jsp:include page="../include/menu.jsp"/>
 <html>
 <head>
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
-<link rel="stylesheet" href="./resources/css/box.css" />
 <title>게시판</title>
 <script type="text/javascript">
 	function checkForm() {	
@@ -21,21 +17,19 @@
 </script>
 </head>
 <body>
-	<jsp:include page="../include/boardMenu.jsp" />
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">게시판</h1>
 		</div>
 	</div>
 	<div class="container">
-		<form action="<c:url value="./BoardListAction.do"/>" method="post">
 			<div>
 				<div class="text-right">
 					<span class="badge badge-success">전체 ${total_record}건	</span>
 				</div>
 			</div>
-			<div style="margin-top: 50px">
-				<table class="table table-hover text-center" style="border: 1px solid #ddd">
+			<div style="margin-top: 20px">
+				<table class="table table-hover text-center" style="border-bottom: 1px solid #ddd">
 					<tr style="text-align:center; background: #4C4C4C; color: #EAEAEA ">
 						<th style="width:10%;"></th>
 						<th style="width:40%;">제목</th>
@@ -43,17 +37,10 @@
 						<th style="width:25%;">작성일</th>
 						<th style="width:10%;">조회</th>
 					</tr>
-					<sql:setDataSource var="dataSource"
-						url="jdbc:mysql://localhost:3306/Dictionary?useSSL=false"
-						driver="com.mysql.jdbc.Driver" user="root" password="1234" />
-					
-					<sql:query var="resultSet" dataSource="${dataSource}">
-						select * from adminboard ORDER BY num DESC
-					</sql:query>
-					<c:forEach var="row" items="${resultSet.rows}">
+					<c:forEach var="row" items="${noticelist}">
 					<tr class="jumbotron">
-						<td><span class="box-radius" style="width:10%; color: #FF0000;">공지</span></td>
-						<td style="width:40%; text-align:left;"><a href="./adminBoardViewAction.do?num=${row.num}" style="color: #FF0000;"><c:out value="${row.subject}"/></a></td>
+						<td><span class="notice-radius" style="width:10%; color: #FF0000;">공지</span></td>
+						<td style="width:40%; text-align:left;"><a href="../notice/adminBoardViewAction.do?num=${row.num}" style="color: #FF0000;"><c:out value="${row.subject}"/></a></td>
 						<td style="width:15%;"><c:out value="${row.name}"/></td>
 						<td style="width:25%;"><c:out value="${fn:substring(row.regist_day,0,10)}"/></td>
 						<td style="width:10%;"><c:out value="${row.hit}"/></td>
@@ -72,14 +59,17 @@
 
 				</table>
 			</div>
-			${pageCount}<br>
+<%-- 			${pageCount}<br>
 			${blockStartNum}<br>
 			${blockLastNum}<br>
 			${total_page}<br>
 			넥스트${next}<br>
-			${back}<br>
-			
-			<div class="mb-3" align="center">
+			${back}<br> --%>
+			<div style="text-align:right;">
+				<a href="#" onclick="checkForm(); return false;" class="btn btn-primary p-2 fas fa-pencil-alt">글쓰기</a>
+			</div>
+			<div style="background-color:#F3F3F3; ">
+			<div class="mt-5 pt-3" align="center">
 				<c:set var="pageNum" value="${pageNum}" />
 				<c:if test="${!empty text && pageNum >pageCount}">
 					<a href="<c:url value="./BoardListAction.do?pageNum=${back}&items=${items}&text=${text}"/>" style="font-size: 12px; text-decoration: none; color: black;">&#60;이전ㅣ</a>
@@ -116,7 +106,9 @@
 					<a href="<c:url value="./BoardListAction.do?pageNum=${next}"/>" style="font-size: 12px; text-decoration: none; color: black;">ㅣ다음&#62;</a>
 				</c:if>
 			</div>
-			<div align="left">
+			<hr>
+		<form action="<c:url value="./BoardListAction.do"/>" method="post">
+			<div class="pb-2" align="center">
 				<table>
 					<tr>
 						<td width="100%" align="left">&nbsp;&nbsp; 
@@ -124,21 +116,17 @@
 								<option value="subject">제목에서</option>
 								<option value="content">본문에서</option>
 								<option value="name">글쓴이에서</option>
-						</select> <input name="text" type="text" /> <input type="submit" id="btnAdd" class="btn btn-primary " value="검색 " />
-						</td>
-						<td width="100%" align="right">
-							<a href="#" onclick="checkForm(); return false;" class="btn btn-primary">&laquo;글쓰기</a>
+						</select> <input name="text" type="text" placeholder="검색어를 입력해 주세요" /> <input type="submit" id="board-search" class="btn btn-primary " value="검색 " />
 						</td>
 					</tr>
 				</table>
 			</div>
 		</form>
+		</div>
 	</div>
 	<jsp:include page="../include/footer.jsp" />
 </body>
 </html>
-
-
 
 
 

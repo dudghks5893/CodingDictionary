@@ -1,4 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@page import="java.util.ArrayList"%>
+<%@page import="language.model.LanguageBean"%>
+<jsp:useBean id="mgr" class="language.model.LanguageMgr"/>
+<jsp:include page="../include/menu.jsp" />
+<%
+	ArrayList<LanguageBean> list = mgr.getLanguageList();
+%>
 
 		<html>
 
@@ -7,7 +14,6 @@
 		</head>
 
 		<body>
-		<jsp:include page="../include/menu.jsp" />
 		<div class="jumbotron">
 			<div class="container">
 				<h1 class="display-3">
@@ -21,12 +27,11 @@
 					<label class="col-sm-2">언어</label>
 					<div class="col-sm-5">
 						<select name="language" id="language" class="form-control">
-							<option selected>JAVA</option>
-							<option>CSS</option>
-							<option>JavaScript</option>
-							<option>HTML</option>
-							<option>XML</option>
-							<option>JSTL</option>
+							<%
+								for(int i=0; i<list.size(); i++){
+							%>
+								<option><%=list.get(i).getLanguage()%></option>
+							<%}%>
 						</select>
 					</div>
 				</div>

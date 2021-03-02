@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> <!-- jstl-1.2.jar라이브러리 추가해야 코어태그 사용가능 -->
 <%@ include file="../dbconn.jsp"%>
-
+	
 	<!-- 부트스트랩 CSS -->
 	<link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
 	<!-- 폰트오썸 링크CSS -->
@@ -14,7 +14,6 @@
 		//로그인과정에서 저장된 세션 id를 가져온다. 없으면 null값.
 		String sessionId = (String) session.getAttribute("sessionId");
 	%>
-	
  <!-- 최 상단 검은 네브바 -->
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <!-- 햄버거바 버튼 -->

@@ -1,12 +1,11 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<jsp:include page="../include/menu.jsp"/>
 <%
 	String name = (String) request.getAttribute("name");
-	
 %>
 <html>
 <head>
-<link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
 <title>게시판 등록</title>
 </head>
 <script type="text/javascript">
@@ -26,7 +25,6 @@
 	}
 </script>
 <body>
-	<jsp:include page="../include/boardMenu.jsp" />
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">게시판 등록</h1>

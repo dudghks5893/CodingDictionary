@@ -1,9 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> <!-- jstl-1.2.jar라이브러리 추가해야 코어태그 사용가능 -->
 <%@ include file="../dbconn.jsp"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="language.model.LanguageBean"%>
+<jsp:useBean id="mgr" class="language.model.LanguageMgr"/>
 
+	<!-- 우측 하단 CSS -->
+	<link rel="stylesheet" href="../resources/css/bottom_right.css" />
 	<!-- 부트스트랩 CSS -->
 	<link rel="stylesheet" href="../resources/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<!-- board CSS -->
+	<link rel="stylesheet" href="../resources/css/board.css"/>
 	<!-- 폰트오썸 링크CSS -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"/>
 	<!-- styles폴더에 highlight CSS (코딩 하이라이터)-->
@@ -13,9 +21,9 @@
 	<%
 		//로그인과정에서 저장된 세션 id를 가져온다. 없으면 null값.
 		String sessionId = (String) session.getAttribute("sessionId");
-		String search = request.getParameter("search");
+		ArrayList<LanguageBean> list = mgr.getLanguageList();
 	%>
-	
+
  <!-- 최 상단 검은 네브바 -->
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <!-- 햄버거바 버튼 -->
@@ -35,28 +43,17 @@
               		<a href="<c:url value="../dictionary/selectDictionary"/>" class="dropdown-item">
                 		<i class="fas fa-book"></i> 전체보기
               		</a>
-              		<a href="<c:url value="../dictionary/selectLanguage?language=CSS"/>" class="dropdown-item">
-                		<i class="fas fa-book"></i> CSS
+              		<%
+              			for(int i=0; i<list.size(); i++){
+              		%>
+              		<a href="../dictionary/selectLanguage?language=<%=list.get(i).getLanguage()%>" class="dropdown-item">
+                		<i class="fas fa-book"></i> <%=list.get(i).getLanguage()%>
               		</a>
-              		<a href="<c:url value="../dictionary/selectLanguage?language=HTML"/>" class="dropdown-item">
-                		<i class="fas fa-book"></i> HTML
-              		</a>
-              		<a href="<c:url value="../dictionary/selectLanguage?language=JAVA"/>" class="dropdown-item">
-                		<i class="fas fa-book"></i> JAVA
-              		</a>
-              		<a href="<c:url value="../dictionary/selectLanguage?language=JavaScript"/>" class="dropdown-item">
-                		<i class="fas fa-book"></i> JavaScript
-              		</a>
-              		<a href="<c:url value="../dictionary/selectLanguage?language=JSTL"/>" class="dropdown-item">
-                		<i class="fas fa-book"></i> JSTL
-              		</a>
-              		<a href="<c:url value="../dictionary/selectLanguage?language=XML"/>" class="dropdown-item">
-                		<i class="fas fa-book"></i> XML
-              		</a>
+              		<%}%>
     		   </div>          	
           </li>
           <li class="nav-item">
-			<a href="<c:url value="/BoardListAction.do?pageNum=1"/>" class="nav-link"> <!-- 서블릿으로 감 -->
+			<a href="<c:url value="../board/BoardListAction.do?pageNum=1"/>" class="nav-link"> <!-- 서블릿으로 감 -->
 			  <i class="fas fa-Bulletin"></i> 게시판
 			</a> 
 		  </li>
@@ -161,6 +158,8 @@
   <!-- 최 상단 검은 네브바 끝-->
     <script src="../resources/js/jquery-3.5.1.min.js"></script>
     <script src="../resources/js/bootstrap.bundle.min.js"></script>
+    <!-- 다크모드 js -->
+    <script src="../resources/js/darkmode.js"></script>
     <!-- 코딩 하이라이터 js -->
     <script src="../resources/js/highlight.pack.js"></script>
 	<script>hljs.initHighlightingOnLoad();</script>

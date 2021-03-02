@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@page import="dictionary.model.DictionaryBean"%>
 <jsp:useBean id="mgr" class="dictionary.model.DictionaryMgr"/>
+<jsp:include page="../include/menu.jsp" />
 <%
 	String num= request.getParameter("num");
 	String userid = (String) session.getAttribute("sessionId");
@@ -21,7 +22,6 @@
 </script>
 		</head>
 		<body>
-			<jsp:include page="../include/menu.jsp" />
 			<div class="container text-center">
 				<h1 class="display-3" style="margin-top:30px;">코딩사전</h1>
 			</div>
