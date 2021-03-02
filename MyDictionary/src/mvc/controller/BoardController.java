@@ -34,47 +34,47 @@ public class BoardController extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 	
-		if (command.equals("/BoardListAction.do")) {//등록된 글 목록 페이지 출력하기
+		if (command.equals("/board/BoardListAction.do")) {//등록된 글 목록 페이지 출력하기
 			requestBoardList(request); // 게시판에 표시될 게시글을 request에 저장한다.
-			RequestDispatcher rd = request.getRequestDispatcher("./board/list.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
 			rd.forward(request, response); // 페이지 이동
-		} else if (command.equals("/BoardWriteForm.do")) { // 글 등록 페이지 출력하기
+		} else if (command.equals("/board/BoardWriteForm.do")) { // 글 등록 페이지 출력하기
 				requestLoginName(request);
-				RequestDispatcher rd = request.getRequestDispatcher("./board/writeForm.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("writeForm.jsp");
 				rd.forward(request, response);				
-		} else if (command.equals("/BoardWriteAction.do")) {// 새로운 글 등록하기
+		} else if (command.equals("/board/BoardWriteAction.do")) {// 새로운 글 등록하기
 				requestBoardWrite(request);
-				RequestDispatcher rd = request.getRequestDispatcher("/BoardListAction.do");
+				RequestDispatcher rd = request.getRequestDispatcher("/board/BoardListAction.do");
 				rd.forward(request, response);						
-		} else if (command.equals("/BoardViewAction.do")) {//선택된 글 상세 페이지 가져오기
+		} else if (command.equals("/board/BoardViewAction.do")) {//선택된 글 상세 페이지 가져오기
 				requestBoardView(request);
-				RequestDispatcher rd = request.getRequestDispatcher("/BoardView.do");
+				RequestDispatcher rd = request.getRequestDispatcher("/board/BoardView.do");
 				rd.forward(request, response);						
-		} else if (command.equals("/BoardView.do")) { //글 상세 페이지 출력하기
-				RequestDispatcher rd = request.getRequestDispatcher("./board/view.jsp");
+		} else if (command.equals("/board/BoardView.do")) { //글 상세 페이지 출력하기
+				RequestDispatcher rd = request.getRequestDispatcher("view.jsp");
 				rd.forward(request, response);	
-		} else if (command.equals("/BoardUpdateAction.do")) { //선택된 글의 조회수 증가하기
+		} else if (command.equals("/board/BoardUpdateAction.do")) { //선택된 글의 조회수 증가하기
 				requestBoardUpdate(request);
-				RequestDispatcher rd = request.getRequestDispatcher("/BoardListAction.do");
+				RequestDispatcher rd = request.getRequestDispatcher("/board/BoardListAction.do");
 				rd.forward(request, response);
-		} else if (command.equals("/BoardDeleteAction.do")) { //선택된 글 삭제하기
+		} else if (command.equals("/board/BoardDeleteAction.do")) { //선택된 글 삭제하기
 				requestBoardDelete(request);
-				RequestDispatcher rd = request.getRequestDispatcher("/BoardListAction.do");
+				RequestDispatcher rd = request.getRequestDispatcher("/board/BoardListAction.do");
 				rd.forward(request, response);				
-		} else if (command.equals("/adminBoardViewAction.do")) {//선택된 공지사항 상세 페이지 가져오기
+		} else if (command.equals("/notice/adminBoardViewAction.do")) {//선택된 공지사항 상세 페이지 가져오기
 				adminrequestBoardView(request);
-				RequestDispatcher rd = request.getRequestDispatcher("/adminview.do");
+				RequestDispatcher rd = request.getRequestDispatcher("/notice/adminview.do");
 				rd.forward(request, response);
-		} else if (command.equals("/adminview.do")) { //공지사항 상세 페이지 출력하기
-				RequestDispatcher rd = request.getRequestDispatcher("./notice/adminview.jsp");
+		} else if (command.equals("/notice/adminview.do")) { //공지사항 상세 페이지 출력하기
+				RequestDispatcher rd = request.getRequestDispatcher("adminview.jsp");
 				rd.forward(request, response);
-		} else if (command.equals("/adminBoardUpdateAction.do")) { //선택된 공지사항 조회수 증가하기
+		} else if (command.equals("/notice/adminBoardUpdateAction.do")) { //선택된 공지사항 조회수 증가하기
 				adminrequestBoardUpdate(request);
-				RequestDispatcher rd = request.getRequestDispatcher("/BoardListAction.do");
+				RequestDispatcher rd = request.getRequestDispatcher("/board/BoardListAction.do");
 				rd.forward(request, response);
-		} else if (command.equals("/adminBoardDeleteAction.do")) { //선택된 공지사항 삭제하기
+		} else if (command.equals("/notice/adminBoardDeleteAction.do")) { //선택된 공지사항 삭제하기
 				adminrequestBoardDelete(request);
-				RequestDispatcher rd = request.getRequestDispatcher("/BoardListAction.do");
+				RequestDispatcher rd = request.getRequestDispatcher("/board/BoardListAction.do");
 				rd.forward(request, response);
 		}
 	}
@@ -82,10 +82,13 @@ public class BoardController extends HttpServlet {
 	public void requestBoardList(HttpServletRequest request){
 			
 		BoardDAO dao = BoardDAO.getInstance(); // 유일한 객체를 가져옴
+		adminBoardDAO notice = new adminBoardDAO();
 		Paging paging = new Paging(); // 페이징 객체 생성
 		List<BoardDTO> boardlist = new ArrayList<BoardDTO>();
+		List<BoardDTO> noticelist = new ArrayList<BoardDTO>();
 		
-		final int LISTCOUNT = 10;  // 화면에 표시되는 리스트 개수
+		
+		final int LISTCOUNT = 15;  // 화면에 표시되는 리스트 개수
 		final int PAGECOUNT = 5;   // 화면에 표시되는 페이지 개수
 	  	int pageNum=1; //최초 페이지넘버는 1이다.
 	  	int start = 0;// 리스트 출력할 시작 위치
@@ -96,6 +99,9 @@ public class BoardController extends HttpServlet {
 		// items= 제목, 본문, 글쓴이,  text = 검색어
 		String items = request.getParameter("items");
 		String text = request.getParameter("text");
+		
+		// 화면에 보여줄 공지사항 리스트
+		noticelist = notice.getNoticeList();
 		
 		// 화면에 보여줄 게시글을 가져온다. (페이지넘버,아이템,검색어,리밋(start,cnt))
 		boardlist = dao.getBoardList(pageNum,items, text,start,LISTCOUNT);
@@ -123,6 +129,7 @@ public class BoardController extends HttpServlet {
    		request.setAttribute("pageNum", pageNum);		  
 		request.setAttribute("total_record",total_record); 
 		request.setAttribute("boardlist", boardlist);								
+		request.setAttribute("noticelist", noticelist);								
 	}
 	//인증된 사용자명 가져오기
 	public void requestLoginName(HttpServletRequest request){

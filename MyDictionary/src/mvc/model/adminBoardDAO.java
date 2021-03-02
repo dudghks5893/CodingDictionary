@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+import mvc.database.DBConnection;
 import mvc.database.DBConnectionMgr;
 	//보드 DTO를 사용하는 메소드들을 정의(DB연결 등 처리)
 public class adminBoardDAO {
@@ -15,7 +17,44 @@ public class adminBoardDAO {
 		pool = DBConnectionMgr.getInstance();
 	}
 
+	
+//공지사항 리스트 출력
+	public ArrayList<BoardDTO> getNoticeList() {
+		Connection con = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
 
+		try {
+			con = pool.getConnection();
+			stmt = con.createStatement();
+			sql = "select * from adminboard ORDER BY num DESC";
+			rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				BoardDTO board = new BoardDTO();
+				board.setNum(rs.getInt("num"));
+				board.setId(rs.getString("id"));
+				board.setName(rs.getString("name"));
+				board.setSubject(rs.getString("subject"));
+				board.setContent(rs.getString("content"));
+				board.setRegist_day(rs.getString("regist_day"));
+				board.setHit(rs.getInt("hit"));
+				board.setIp(rs.getString("ip"));
+				list.add(board); // 리스트에 추가
+			}
+			return list;
+		} catch (Exception ex) {
+			System.out.println("getBoardList() 에러 : " + ex);
+		} finally {
+			pool.freeConnection(con, stmt, rs);
+		}
+		return null;
+	}
+	
+	
 //선택된 글의 조회수 증가하기
 	public void adminupdateHit(int num) {
 		Connection con = null;

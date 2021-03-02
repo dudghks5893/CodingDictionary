@@ -19,6 +19,7 @@ public class DictionaryMgr {
 		pool = DBConnectionMgr.getInstance();
 	}
 	
+	
 //코딩사전 전체 개수
 		public int getAllCount(String search) {
 			Connection con = null;

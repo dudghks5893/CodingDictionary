@@ -35,7 +35,7 @@ public class selectDictionaryServlet extends HttpServlet{
 		DictionaryMgr mgr = new DictionaryMgr();
 		Paging paging = new Paging();
 		
-		final int LISTCOUNT = 10;  // 화면에 표시되는 리스트 개수
+		final int LISTCOUNT = 15;  // 화면에 표시되는 리스트 개수
 		final int PAGECOUNT = 5; // 화면에 표시되는 페이지 개수
 		int pageNum = 1; // 최초 시작 페이지
 		int start = 0;   // 리스트 출력할 시작 위치
