@@ -1,14 +1,14 @@
 package dictionary.model;
 
 public class DictionaryBean {
-	int num;
-	String language;
-	String code;
-	String abbreviation;
-	String meaning;
-	String type;
-	String explanation;
-	String ex;
+	private int num;
+	private String language;
+	private String code;
+	private String abbreviation;
+	private String meaning;
+	private String type;
+	private String explanation;
+	private String ex;
 	public int getNum() {
 		return num;
 	}

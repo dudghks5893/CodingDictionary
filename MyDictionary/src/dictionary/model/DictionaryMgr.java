@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import dictionary.database.DBConnectionMgr;
+import database.DBConnectionMgr;
 
 public class DictionaryMgr {
 
@@ -140,22 +140,6 @@ public class DictionaryMgr {
 			return -1;
 		}
 			
-// 코딩사전 언어별 페이징 개수
-//		public int getLanguagePaging(String search, String language ,int listCout) {
-//			int total = 0;
-//			int paging = 0;
-//			total = getLanguageCount(search,language); // 코딩사전 언어별 개수
-//				
-//				if(total%listCout==0) {
-//					paging = total/listCout;
-//					Math.floor(paging);
-//				} else {
-//					paging = total/listCout+1;
-//					Math.floor(paging);
-//				}
-//				
-//					return paging;
-//		}
 		
 // 코딩사전 언어별 리스트	
 		public ArrayList<DictionaryBean> getLanguageDictionary(int pageNum,String search, String language, int start , int listCout) {
@@ -303,26 +287,6 @@ public class DictionaryMgr {
 				pool.freeConnection(con, pstmt);
 			}
 		}
-// 코딩사전 삭제 자기 호출방식 (현재 view 페이지에서 바로 삭제)
-//		public void deleteDictionary2(String num) {
-//			Connection con = null;
-//			PreparedStatement pstmt = null;
-//			String sql = "";
-//			try {
-//				con = pool.getConnection();
-//				sql = "delete from CodingDictionary where Num = ?";
-//				pstmt = con.prepareStatement(sql);
-//				pstmt.setString(1, num);
-//				pstmt.executeUpdate();
-//			} catch (Exception e) {
-//				System.out.println("deleteDictionary() 에러 : "+e);
-//			} finally {
-//				pool.freeConnection(con, pstmt);
-//			}
-//		}
-		
-		
-		
 		
 		
 		

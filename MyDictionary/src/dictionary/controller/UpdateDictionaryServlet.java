@@ -12,8 +12,8 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/dictionary/insertDictionary")
-public class InsertDictionaryServlet extends HttpServlet{
+@WebServlet("/dictionary/updateDictionary")
+public class UpdateDictionaryServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
@@ -28,10 +28,10 @@ public class InsertDictionaryServlet extends HttpServlet{
 		bean.setType(request.getParameter("type"));
 		bean.setExplanation(request.getParameter("explanation"));
 		bean.setEx(request.getParameter("ex"));
+		bean.setNum(Integer.parseInt(request.getParameter("num")));
 		
-		mgr.insertDictionary(bean);
-		response.sendRedirect("selectDictionary");
-		
+		mgr.updateDictionary(bean);
+		response.sendRedirect("selectDictionary_update");
 		
 	}
 }

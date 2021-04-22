@@ -1,7 +1,7 @@
 package language.model;
 
 public class LanguageBean {
-	String language;
+	private String language;
 
 	public String getLanguage() {
 		return language;

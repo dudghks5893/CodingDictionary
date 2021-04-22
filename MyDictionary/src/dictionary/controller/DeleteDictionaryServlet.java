@@ -12,8 +12,8 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet("/dictionary/insertDictionary")
-public class InsertDictionaryServlet extends HttpServlet{
+@WebServlet("/dictionary/deleteDictionary")
+public class DeleteDictionaryServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
@@ -21,17 +21,10 @@ public class InsertDictionaryServlet extends HttpServlet{
 		DictionaryMgr mgr = new DictionaryMgr();
 		DictionaryBean bean = new DictionaryBean();
 		
-		bean.setLanguage(request.getParameter("language"));
-		bean.setCode(request.getParameter("code"));
-		bean.setAbbreviation(request.getParameter("abbreviation"));
-		bean.setMeaning(request.getParameter("meaning"));
-		bean.setType(request.getParameter("type"));
-		bean.setExplanation(request.getParameter("explanation"));
-		bean.setEx(request.getParameter("ex"));
+		bean.setNum(Integer.parseInt(request.getParameter("num")));
 		
-		mgr.insertDictionary(bean);
-		response.sendRedirect("selectDictionary");
-		
+		mgr.deleteDictionary(bean);
+		response.sendRedirect("selectDictionary_delete");
 		
 	}
 }
