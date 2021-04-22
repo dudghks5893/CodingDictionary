@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="user.UserDAO" %>
+<%@ page import="user.model.UserMgr" %>
 
-<%request.setCharacterEncoding("UTF-8"); %>
+<%
+request.setCharacterEncoding("UTF-8");
+%>
 <!-- User클래스의 객체를 생성하여 이페이지에서 사용할수 있게 한다. -->
-<jsp:useBean id="user" class="user.User" scope="page"/>
-<!-- form으로부터 전달된 파라메터들을 User객체의 set메소드를 사용 -->
+<jsp:useBean id="user" class="user.model.UserBean" scope="page"/>
+<!-- form으로부터 전달된 파라메터들을 User객체의 set메소드를 사용 값을 빈즈로 보냄-->
 <jsp:setProperty name="user" property="userID"/>    
 <jsp:setProperty name="user" property="userPassword"/>    
 
@@ -16,11 +18,11 @@
  -->
 
 	<%
-// 		세션에 userID를 얻어와서 현재 로그인 상태인지 확인한다.
+		// 세션에 userID를 얻어와서 현재 로그인 상태인지 확인한다.
 		String userID = null;
 		if(session.getAttribute("userID") != null){ 
-			// 널값이 아니라면 아이디를 가져온다.
-			userID = (String) session.getAttribute("userID");
+		// 널값이 아니라면 아이디를 가져온다.
+		userID = (String) session.getAttribute("userID");
 		}
 		if(userID != null){ // 이미 로그인이 되어 있으면
 			out.println("<script>");
@@ -28,9 +30,9 @@
 			out.println("location.href = '../dictionary/selectDictionary'"); // 메인페이지로 이동
 			out.println("</script>");
 		}
-		
+			
 		//DB연결 메소드를 사용하기 위해 dao 객체 생성
-		UserDAO dao = new UserDAO();
+		UserMgr dao = new UserMgr();
 		// DB연결과 동시에 login(아이디,비번) 메소드 결과값을 정수로 받아서 상황에 따라 분기
 		int result = dao.login(user.getUserID(), user.getUserPassword());
 		if(result == 1){ //정상 (로그인)

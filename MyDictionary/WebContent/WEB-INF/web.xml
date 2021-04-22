@@ -3,7 +3,7 @@
 
 	<!-- 시작 페이지 설정 -->
 	<welcome-file-list>
-		<welcome-file>/dictionary/Dictionary.jsp</welcome-file>
+		<welcome-file>/main.jsp</welcome-file>
 	</welcome-file-list>
 <!--	
 	<security-role>
@@ -50,7 +50,7 @@
  
  	<servlet>
 		<servlet-name>BoardController</servlet-name>
-		<servlet-class>mvc.controller.BoardController</servlet-class>
+		<servlet-class>board.controller.BoardController</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>

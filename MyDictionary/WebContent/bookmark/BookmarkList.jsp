@@ -5,13 +5,14 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="../resources/css/dictionary.css"/>
-			<title>Dictionary</title>
+			<title>Bookmark</title>
 </head>
 <body>
 			<h1>
     			<span>C</span><span>o</span><span>d</span><span>i</span><span>n</span><span>g</span>
   			</h1>
  			 <form>
+ 			 	<input type="hidden" name="userName" value="${userName}">
    			 	<div class="mx-auto mt-5 search-bar input-group mb-3">
       				<input name="search" type="text" class="form-control rounded-pill" placeholder="Coding 검색 " aria-label="Recipient's username" aria-describedby="button-addon2">
       				<div class="input-group-append">
@@ -19,7 +20,7 @@
     			</div>
  			 </form>
 			<div class="container" style="margin-top: 60px;">
-				<h2>전체 ${total_record}개</h2>
+				<h2>즐겨찾기 ${total_record}개</h2>
 <%-- 				다음${next}<br>
 				이전${back}<br>
 				블록${blockLastNum}<br>
@@ -35,16 +36,16 @@
 						<th style="text-align:center;">설명</th>
 						<th>사용예제</th>
 					</tr>
-				<c:forEach var="item" items="${dictionarylist}">
+				<c:forEach var="item" items="${Bookmarklist}">
 					<tr>
 						<td>${item.language}</td>
 						<td>${fn:replace(item.code, '<', '&#60;')}</td>
 						<td>${fn:replace(item.explanation, '<', '&#60;').replace(' ','&nbsp;')}</td>
 					<c:if test="${!empty search}">
-						<td><a href="DictionaryEx.jsp?search=${search}&pageNum=${pageNum}&num=${item.num}" class="btn" style="height: 25px; padding: 1px; color: white; background-color: #C07F5A; border: #8A4924;">사용예제</a></td>
+						<td><a href="BookmarkEx.jsp?search=${search}&userName=${userName}&pageNum=${pageNum}&num=${item.num}" class="btn" style="height: 25px; padding: 1px; color: white; background-color: #C07F5A; border: #8A4924;">사용예제</a></td>
 					</c:if>
 					<c:if test="${empty search}">
-						<td><a href="DictionaryEx.jsp?pageNum=${pageNum}&num=${item.num}" class="btn" style="height: 25px; padding: 1px; color: white; background-color: #C07F5A; border: #8A4924;">사용예제</a></td>
+						<td><a href="BookmarkEx.jsp?userName=${userName}&pageNum=${pageNum}&num=${item.num}" class="btn" style="height: 25px; padding: 1px; color: white; background-color: #C07F5A; border: #8A4924;">사용예제</a></td>
 					</c:if>
 					</tr>
 				</c:forEach>
@@ -53,38 +54,38 @@
 		<div class="mt-5" align="center">
 			<c:set var="pageNum" value="${pageNum}"/>
 			<c:if test="${!empty search && pageNum >pageCount}">
-				<a href="selectDictionary?search=${search}&pageNum=${back}" class="btn btn-outline-info mr-2"><b>&laquo;</b></a>
+				<a href="selectBookmark?userName=${userName}&search=${search}&pageNum=${back}" class="btn btn-outline-info mr-2"><b>&laquo;</b></a>
 			</c:if>
 			<c:if test="${empty search && pageNum >pageCount}">
-				<a href="selectDictionary?pageNum=${back}" class="btn btn-outline-info mr-2"><b>&laquo;</b></a>
+				<a href="selectBookmark?userName=${userName}&pageNum=${back}" class="btn btn-outline-info mr-2"><b>&laquo;</b></a>
 			</c:if>
 			<c:forEach var="i" begin="${blockStartNum}" end="${blockLastNum}">
 				<c:if test="${search ne null}">
 					<c:choose>
 						<c:when test="${pageNum==i}">
-							<a href="selectDictionary?search=${search}&pageNum=${i}" class="btn btn-info">${i}</a>
+							<a href="selectBookmark?userName=${userName}&search=${search}&pageNum=${i}" class="btn btn-info">${i}</a>
 						</c:when>
 						<c:otherwise>
-							<a href="selectDictionary?search=${search}&pageNum=${i}" class="btn btn-outline-info">${i}</a>
+							<a href="selectBookmark?userName=${userName}&search=${search}&pageNum=${i}" class="btn btn-outline-info">${i}</a>
 						</c:otherwise>
 					</c:choose>
 				</c:if>
 				<c:if test="${search eq null}">
 					<c:choose>
 						<c:when test="${pageNum==i}">
-							<a href="selectDictionary?pageNum=${i}" class="btn btn-info">${i}</a>
+							<a href="selectBookmark?userName=${userName}&pageNum=${i}" class="btn btn-info">${i}</a>
 						</c:when>
 						<c:otherwise>
-							<a href="selectDictionary?pageNum=${i}" class="btn btn-outline-info">${i}</a>
+							<a href="selectBookmark?userName=${userName}&pageNum=${i}" class="btn btn-outline-info">${i}</a>
 						</c:otherwise>
 					</c:choose>
 			   </c:if>
 			</c:forEach>
 			<c:if test="${!empty search && total_page > blockLastNum}">
-				<a href="selectDictionary?search=${search}&pageNum=${next}" class="btn btn-outline-info ml-2"><b>&raquo;</b></a>
+				<a href="selectBookmark?userName=${userName}&search=${search}&pageNum=${next}" class="btn btn-outline-info ml-2"><b>&raquo;</b></a>
 			</c:if>
 			<c:if test="${empty search && total_page > blockLastNum}">
-				<a href="selectDictionary?pageNum=${next}" class="btn btn-outline-info ml-2"><b>&raquo;</b></a>
+				<a href="selectBookmark?userName=${userName}&pageNum=${next}" class="btn btn-outline-info ml-2"><b>&raquo;</b></a>
 			</c:if>
 		</div>
 <!-- 우측하단 고정 -->

@@ -71,10 +71,15 @@
 				<div class="form-group row">
 					<label class="col-sm-2">사용예제</label>
 					<div class="col-sm-8">
-						<pre style="font-size: 16px; border: 1px solid #ddd; padding: 5px;"><%=bean.getEx().replaceAll("<", "&#60;")%></pre>
+						<div class="card">
+							<div class="card-body">
+								<%=bean.getEx()%>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="form-group row">
+				<div class="form-group row mt-3">
+					<div class="col-sm-2"></div>
 					<div class="col-sm-offset-2 col-sm-10">
 						<input type="submit" class="btn btn-danger" value="삭제">
 						<a href="javascript:window.history.back();" class="btn btn-primary">취소</a>

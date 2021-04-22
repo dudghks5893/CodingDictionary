@@ -83,7 +83,7 @@
 			<div class="form-group  row mt-5">
 				<div class="col-sm-offset-2 col-sm-10 ">
 					<input type="submit" class="btn btn-danger" value="회원탈퇴"> 
-					<a href="javascript:window.history.back();" class="btn btn-primary">취소</a>
+					<a href="../dictionary/selectDictionary" class="btn btn-primary">취소</a>
 				</div>
 			</div>
 		</form>	

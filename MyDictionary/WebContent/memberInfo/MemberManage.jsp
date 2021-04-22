@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@page import="java.util.ArrayList"%>
-<%@page import="user.User"%>
-<jsp:useBean id="dao" class="user.UserDAO"/>
+<%@page import="user.model.UserBean"%>
+<jsp:useBean id="dao" class="user.model.UserMgr"/>
 <jsp:useBean id="paging" class="my.util.paging.Paging"/>
 <%
-	final int LISTCOUNT = 12;  // 화면에 표시되는 리스트 개수
+final int LISTCOUNT = 12;  // 화면에 표시되는 리스트 개수
 	final int PAGECOUNT = 5; // 화면에 표시되는 페이지 개수
 	int pageNum = 1; // 최초 시작 페이지
 	int start = 0;   // 리스트 출력할 시작 위치
@@ -18,7 +18,7 @@
 	String search = request.getParameter("search"); // Search값을 받아옴
 	
 	// 회원 리스트
-	ArrayList<User> list = dao.getAllMember(pageNum,search,start,LISTCOUNT);
+	ArrayList<UserBean> list = dao.getAllMember(pageNum,search,start,LISTCOUNT);
 	
 	//페이징 블록 처리
 	total_record = dao.getAllCount(search);

@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@page import="java.util.ArrayList"%>
-<%@page import="language.model.LanguageBean"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:useBean id="mgr" class="language.model.LanguageMgr"/>
 <jsp:include page="../include/menu.jsp" />
-<%
-	ArrayList<LanguageBean> list = mgr.getLanguageList();
-%>
+<c:set var="list" value="${mgr.getLanguageList()}"/>
+
 
 		<html>
 
@@ -27,11 +25,9 @@
 					<label class="col-sm-2">언어</label>
 					<div class="col-sm-5">
 						<select name="language" id="language" class="form-control">
-							<%
-								for(int i=0; i<list.size(); i++){
-							%>
-								<option><%=list.get(i).getLanguage()%></option>
-							<%}%>
+						<c:forEach var="item" items="${list}">
+							<option>${item.language}</option>	
+						</c:forEach>
 						</select>
 					</div>
 				</div>
@@ -80,6 +76,15 @@
 			</form>
 		</div>
 			<jsp:include page="../include/footer.jsp" />
+<script>
+    var config = {
+      extraPlugins: 'codesnippet',
+      codeSnippet_theme: 'monokai_sublime',
+      height: 356
+    };
+
+    CKEDITOR.replace('ex', config);
+</script>
 		</body>
 
 		</html>

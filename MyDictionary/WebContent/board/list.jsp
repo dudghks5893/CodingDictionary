@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<jsp:useBean id="mgr" class="comments.model.CommentsMgr"/>
 <jsp:include page="../include/menu.jsp"/>
+
 <html>
 <head>
 <title>게시판</title>
@@ -40,7 +42,7 @@
 					<c:forEach var="row" items="${noticelist}">
 					<tr class="jumbotron">
 						<td><span class="notice-radius" style="width:10%; color: #FF0000;">공지</span></td>
-						<td style="width:40%; text-align:left;"><a href="../notice/adminBoardViewAction.do?num=${row.num}" style="color: #FF0000;"><c:out value="${row.subject}"/></a></td>
+						<td style="width:40%; text-align:left;"><a href="../notice/adminBoardViewAction.do?num=${row.num}&pageNum=${pageNum}" style="color: #FF0000;"><c:out value="${row.subject}"/></a></td>
 						<td style="width:15%;"><c:out value="${row.name}"/></td>
 						<td style="width:25%;"><c:out value="${fn:substring(row.regist_day,0,10)}"/></td>
 						<td style="width:10%;"><c:out value="${row.hit}"/></td>
@@ -48,9 +50,10 @@
 					</c:forEach>
 
 					<c:forEach var="item" items="${boardlist}">
+					<c:set var="commentsCount" value="${mgr.getCommentsCount(item.num)}"/>
 					<tr>
 						<td style="width:10%;">${item.num}</td>
-						<td style="width:40%; text-align:left;"><a href="./BoardViewAction.do?num=${item.num}&pageNum=${pageNum}" style="color: #000000;"><c:out value="${item.subject}"/></a></td>
+						<td style="width:40%; text-align:left;"><a href="./BoardViewAction.do?num=${item.num}&pageNum=${pageNum}" style="color: #000000;"><c:out value="${item.subject} [${commentsCount}]"/></a></td>
 						<td style="width:15%;">${item.name}</td>
 						<td style="width:25%;">${item.regist_day}</td>
 						<td style="width:10%;">${item.hit}</td>

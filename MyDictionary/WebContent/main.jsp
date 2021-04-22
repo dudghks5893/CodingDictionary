@@ -12,7 +12,7 @@
 </script>
 	
 <script type="text/javascript">
-	var count = 6;
+	var count = 4;
 	var counter = setInterval(timer,1000);
 	
 	function timer() {
@@ -28,7 +28,7 @@
 		document.getElementById("timer").innerHTML = count+"초 후에 사전을 열람 합니다.";
 	}
 </script>
-<body class="main-img" onLoad="setTimeout('next()', 6000)" >
+<body class="main-img" onLoad="setTimeout('next()', 4000)" >
 	<span class="flex-container" id="timer" style="color:white;"></span>
 </body>
 </html>

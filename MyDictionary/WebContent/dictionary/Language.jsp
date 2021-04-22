@@ -40,7 +40,12 @@
 						<td>${item.language}</td>
 						<td>${fn:replace(item.code, '<', '&#60;')}</td>
 						<td>${fn:replace(item.explanation, '<', '&#60;').replace(' ','&nbsp;')}</td>
-						<td><a href="Ex.jsp?num=${item.num}" class="btn" style="height: 25px; padding: 1px; color: white; background-color: #C07F5A; border: #8A4924;">사용예제</a></td>
+					<c:if test="${!empty search}">
+						<td><a href="LanguageEx.jsp?search=${search}&pageNum=${pageNum}&num=${item.num}" class="btn" style="height: 25px; padding: 1px; color: white; background-color: #C07F5A; border: #8A4924;">사용예제</a></td>
+					</c:if>
+					<c:if test="${empty search}">	
+						<td><a href="LanguageEx.jsp?pageNum=${pageNum}&num=${item.num}" class="btn" style="height: 25px; padding: 1px; color: white; background-color: #C07F5A; border: #8A4924;">사용예제</a></td>
+					</c:if>
 					</tr>
 				</c:forEach>
 				</table>

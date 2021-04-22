@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> <!-- jstl-1.2.jar라이브러리 추가해야 코어태그 사용가능 -->
-<%@ include file="../dbconn.jsp"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="language.model.LanguageBean"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:useBean id="mgr" class="language.model.LanguageMgr"/>
+<jsp:useBean id="userDAO" class="user.model.UserMgr"/>
+
 
 	<!-- 우측 하단 CSS -->
 	<link rel="stylesheet" href="../resources/css/bottom_right.css" />
@@ -14,15 +13,16 @@
 	<link rel="stylesheet" href="../resources/css/board.css"/>
 	<!-- 폰트오썸 링크CSS -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"/>
-	<!-- styles폴더에 highlight CSS (코딩 하이라이터)-->
 	<link href="../resources/styles/monokai-sublime.css" rel="stylesheet" type="text/css">
 
-	
+
 	<%
 		//로그인과정에서 저장된 세션 id를 가져온다. 없으면 null값.
 		String sessionId = (String) session.getAttribute("sessionId");
-		ArrayList<LanguageBean> list = mgr.getLanguageList();
+		session.setAttribute("name", userDAO.getName(sessionId));
 	%>
+<c:set var="list" value="${mgr.getLanguageList()}"/>
+
 
  <!-- 최 상단 검은 네브바 -->
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
@@ -43,13 +43,11 @@
               		<a href="<c:url value="../dictionary/selectDictionary"/>" class="dropdown-item">
                 		<i class="fas fa-book"></i> 전체보기
               		</a>
-              		<%
-              			for(int i=0; i<list.size(); i++){
-              		%>
-              		<a href="../dictionary/selectLanguage?language=<%=list.get(i).getLanguage()%>" class="dropdown-item">
-                		<i class="fas fa-book"></i> <%=list.get(i).getLanguage()%>
+              	<c:forEach var="item" items="${list}">
+              		<a href="../dictionary/selectLanguage?language=${item.language}" class="dropdown-item">
+                		<i class="fas fa-book"></i> ${item.language}
               		</a>
-              		<%}%>
+              	</c:forEach>
     		   </div>          	
           </li>
           <li class="nav-item">
@@ -61,13 +59,13 @@
         <!-- 오른쪽 메뉴 -->
         <ul class="navbar-nav ml-auto">
           <c:choose>
-			<c:when test="${empty sessionId }">
+			<c:when test="${empty sessionId}">
           <li class="nav-item">
             <a class="nav-link" href="../dictionary/selectDictionary" data-remote="../member/login.jsp" data-toggle="modal" data-target="#theModal">
               <i class="fas fa-user"></i> 로그인
             </a>
           </li>
-         <!-- 외부페이지를 모달로 받아오는 곳 --> 
+         <!-- login.jsp 페이지를 모달로 받아오는 곳 --> 
         <div class="modal fade" id="theModal" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -89,6 +87,9 @@
               <i class="fas fa-user"></i> <span style="color:red">관리자</span>
             </a>
             <div class="dropdown-menu">
+              <a class="dropdown-item" href="../dictionary/selectDictionary" data-remote="../language/insertLanguage.jsp" data-toggle="modal" data-target="#languageModal">
+                <i class="fas fa-book"></i> 언어관리
+              </a>
               <a href="<c:url value="../dictionary/addDictionary.jsp"/>" class="dropdown-item">
                 <i class="fas fa-plus"></i> 코딩추가
               </a>
@@ -106,6 +107,16 @@
               </a>
             </div>
           </li>
+             <!-- insertLanguage.jsp 페이지를 모달로 받아오는 곳 --> 
+        	<div class="modal fade" id="languageModal" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-body" >
+							데이터를 불러올 수 없습니다.
+						</div>
+					</div>
+				</div>
+			</div>
           <li class="nav-item">
             <a href="<c:url value="../member/logoutMember.jsp"/>" class="nav-link">
               <i class="fas fa-user-times"></i> 로그아웃
@@ -113,30 +124,16 @@
           </li>
           </c:when>
           	<c:otherwise>
-          	<%
-          		String sql = "SELECT * FROM member where id = ?";
-          		pstmt = conn.prepareStatement(sql);
-          		pstmt.setString(1,sessionId);
-				rs = pstmt.executeQuery();
-				if(rs.next()){
-          	%>
           	<li class="nav-item dropdown mr-3">
             <a href="javascript:window.history.back();" class="nav-link dropdown-toggle" data-toggle="dropdown">
-              <i class="fas fa-user"></i> [<%=rs.getString("name")%>]<b>님</b>
+              <i class="fas fa-user"></i> [${name}]<b>님</b>
             </a>
-            <%
-				}
-				//DB연결을 닫는다.
-				if (rs != null) rs.close();
-				if (pstmt != null) pstmt.close();
-				if (conn != null) conn.close();
-            %>
           	 <div class="dropdown-menu">
+              <a href="<c:url value="../bookmark/selectBookmark?userName=${name}"/>" class="dropdown-item">
+                <i class="fas fa-Star"></i> 즐겨찾기
+              </a>
               <a href="<c:url value="../member/updateMember.jsp"/>" class="dropdown-item">
                 <i class="fas fa-cog"></i> 회원정보
-              </a>
-              <a href="<c:url value="/#"/>" class="dropdown-item">
-                <i class="fas fa-Star"></i> 즐겨찾기
               </a>
               <a href="<c:url value="../member/deleteMember.jsp"/>" class="dropdown-item">
                 <i class="fas fa-trash"></i> 회원탈퇴
@@ -156,15 +153,19 @@
       <!-- collapse 묶음 끝 -->
   </nav>
   <!-- 최 상단 검은 네브바 끝-->
-    <script src="../resources/js/jquery-3.5.1.min.js"></script>
+  <!--  <script src="../resources/js/jquery-3.5.1.min.js"></script> --> 
+  	<!-- jQuery 항상 최신 버전 사용 -->
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="../resources/js/bootstrap.bundle.min.js"></script>
+    <!-- ckeditor4 -->
+	<script src="https://cdn.ckeditor.com/4.16.0/standard-all/ckeditor.js"></script>
     <!-- 다크모드 js -->
     <script src="../resources/js/darkmode.js"></script>
     <!-- 코딩 하이라이터 js -->
     <script src="../resources/js/highlight.pack.js"></script>
 	<script>hljs.initHighlightingOnLoad();</script>
-	
     <script src="../resources/js/highlightjs-line-numbers.js"></script>
+    
 <script> hljs.initLineNumbersOnLoad();
 $(document).ready(function() {
 	$('code.hljs').each(function(i, block) {
@@ -175,9 +176,21 @@ $(document).ready(function() {
     
     
     
-    <!-- 외부 페이지 모달창으로 받아오는 함수 -->
+    <!-- login.jsp 페이지 모달창으로 받아오는 함수 -->
     <script type="text/javascript">
     $('#theModal').on('show.bs.modal', function(e) {
+    	
+		var button = $(e.relatedTarget);
+		var modal = $(this);
+		
+		modal.find('.modal-body').load(button.data("remote"));
+
+	});
+    </script>
+      
+    <!-- insertLanguage.jsp 페이지 모달창으로 받아오는 함수 -->
+    <script type="text/javascript">
+    $('#languageModal').on('show.bs.modal', function(e) {
     	
 		var button = $(e.relatedTarget);
 		var modal = $(this);
