@@ -68,7 +68,7 @@ public int getTotal_page() {
 					return paging;
 		}
 		
-// 페이징 블록 처리 (얘만 호출하면 됨)
+// 페이징 블록 처리 (만 호출하면 됨)
 	public void getBlockPaging(int pageNum,int total,int LISTCOUNT,int PAGECOUNT ) {
 		
 		int blockNum = 0;  // 블록 숫자  예)0일때 스타트 블록 1, 블록 숫자 1일때 스타트 블록 6
